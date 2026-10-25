@@ -1,240 +1,224 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  <meta charset="UTF-8">
+  <title>Spooky Menu Board</title>
+  <style>
+    :root {
+      --bg: #07040a;
+      --orange: #ff6600;
+      --green: #39ff14;
+      --purple: #9d4edd;
+      --card-bg: rgba(15, 8, 22, 0.92);
+      --text-main: #f0f0f5;
+      --text-muted: #b0a8b9;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Courier New', Courier, monospace;
+      padding: 35px;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 3px dashed var(--orange);
+      padding-bottom: 12px;
+    }
+    h1 {
+      font-size: 3.2rem;
+      color: var(--orange);
+      text-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      flex-grow: 1;
+      overflow: hidden;
+    }
+    .category-column {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--purple);
+      border-radius: 10px;
+      padding: 15px 20px;
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.15);
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    .item-name {
+      font-size: 1.35rem;
+      color: #fff;
+      font-weight: bold;
+    }
+    .item-abv {
+      font-size: 0.95rem;
+      color: var(--orange);
+      font-weight: bold;
+    }
+    .item-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .item-pricing {
+      font-size: 0.95rem;
+      color: var(--green);
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      border-top: 1px dotted rgba(255, 255, 255, 0.1);
+      padding-top: 5px;
+    }
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Spooky Menu Board&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--bg: #07040a;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--orange: #ff6600;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--green: #39ff14;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--purple: #9d4edd;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--card-bg: rgba(15, 8, 22, 0.92);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--text-main: #f0f0f5;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>--text-muted: #b0a8b9;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>* { box-sizing: border-box; margin: 0; padding: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background-color: var(--bg);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-main);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-family: 'Courier New', Courier, monospace;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 35px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>height: 100vh;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>header {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-align: center;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 25px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 3px dashed var(--orange);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding-bottom: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>h1 {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 3.2rem;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--orange);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-shadow: 0 0 15px rgba(255, 102, 0, 0.5);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>text-transform: uppercase;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.grid {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>grid-template-columns: repeat(2, 1fr);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex-grow: 1;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.category-column {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>flex-direction: column;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>gap: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>background: var(--card-bg);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid var(--purple);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 10px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding: 15px 20px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 15px rgba(157, 78, 221, 0.15);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.item-header {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>justify-content: space-between;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>align-items: baseline;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.item-name {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.35rem;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.item-abv {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.95rem;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--orange);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.item-desc {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.88rem;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-muted);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-style: italic;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>line-height: 1.2;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>.item-pricing {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.95rem;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>color: var(--green);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>letter-spacing: 0.5px;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>border-top: 1px dotted rgba(255, 255, 255, 0.1);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>padding-top: 5px;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;🎃 Vision Quest Spooky Menu 🎃&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Left Column --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="category-column"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Dad Joke Lager&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;5.5% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;American Lager brewed with Mountain Malt barley, flaked corn and rice, fermented cold.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$4 (4oz) / $7 (12oz) / $8 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Father Figure Vienna Lager&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;4.6% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;A light, amber hued lager w/ a malty, bread crust backbone and balanced hop profile.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$4 (4oz) / $7 (12oz) / $8 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;CRAFtea Wit&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;5.2% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Belgian style Witbier brewed with Earl Grey Tea. Happy 2026 CRAFT Fest!&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$4 (4oz) / $7 (12oz) / $8 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Boombox Pale Ale&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;6% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;West Coast Pale with Idaho 7, Cascade w/ Citra dry hop.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $8 (12oz) / $9 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Headier Than Thou Hazy IPA&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;6% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Hazy IPA w/ Mosaic and Strata hops.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$4 (4oz) / $8 (12oz) / $9 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Patients' Pleas Hazy IPA&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;7.4% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Mostly Mosaic Hops. Hang in There Hazy IPA’s twin cousin.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $8 (12oz) / $9 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Right Column --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="category-column"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Candy Griper Double IPA&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;8.2% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;A punchy and warming western double IPA w/ Chinook &amp; Simcoe hops featuring an El Dorado hop hash dry hop!&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $9 (12oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Sunless Skies Cascadian Dark Ale&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;5.4% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Roasty malt character w/ citrussy and piney hop qualities make this an absolute crusher!&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $8 (12oz) / $9 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Famine Wolf Stout&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;4.2% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Maris Otter, Chocolate malt, Roasted Barley, Flaked Oats. Fuggle hops. Simple. Subtle. Stout.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $8 (12oz) / $9 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Gnarlyquin Romance&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;7.9% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Stout with chocolate and figs.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $9 (12oz) / $10 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;The Magical Liopleurodon Porter&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;7% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Porter with Coffee, Cinnamon, and Fire-roasted Chili Peppers. Gluten Reduced.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $9 (12oz) / $10 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Exasberryated Worm Farm&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;7.5% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Pastry sour with blueberry, blackberry, black currant, vanilla and lactose.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;$5 (4oz) / $9 (12oz) / $10 (16oz)&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-header"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-name"&gt;Hop Tea&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="item-abv"&gt;0% ABV&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-desc"&gt;Green Tea, Citra Hops and Carbonated Water.&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item-pricing"&gt;Available Now&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+  <header>
+    <h1>🎃 Vision Quest Spooky Menu 🎃</h1>
+  </header>
+
+  <div class="grid">
+    <!-- Left Column -->
+    <div class="category-column">
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Dad Joke Lager</span>
+          <span class="item-abv">5.5% ABV</span>
+        </div>
+        <div class="item-desc">American Lager brewed with Mountain Malt barley, flaked corn and rice, fermented cold.</div>
+        <div class="item-pricing">$4 (4oz) / $7 (12oz) / $8 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Father Figure Vienna Lager</span>
+          <span class="item-abv">4.6% ABV</span>
+        </div>
+        <div class="item-desc">A light, amber hued lager w/ a malty, bread crust backbone and balanced hop profile.</div>
+        <div class="item-pricing">$4 (4oz) / $7 (12oz) / $8 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">CRAFtea Wit</span>
+          <span class="item-abv">5.2% ABV</span>
+        </div>
+        <div class="item-desc">Belgian style Witbier brewed with Earl Grey Tea. Happy 2026 CRAFT Fest!</div>
+        <div class="item-pricing">$4 (4oz) / $7 (12oz) / $8 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Boombox Pale Ale</span>
+          <span class="item-abv">6% ABV</span>
+        </div>
+        <div class="item-desc">West Coast Pale with Idaho 7, Cascade w/ Citra dry hop.</div>
+        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Headier Than Thou Hazy IPA</span>
+          <span class="item-abv">6% ABV</span>
+        </div>
+        <div class="item-desc">Hazy IPA w/ Mosaic and Strata hops.</div>
+        <div class="item-pricing">$4 (4oz) / $8 (12oz) / $9 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Patients' Pleas Hazy IPA</span>
+          <span class="item-abv">7.4% ABV</span>
+        </div>
+        <div class="item-desc">Mostly Mosaic Hops. Hang in There Hazy IPA’s twin cousin.</div>
+        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="category-column">
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Candy Griper Double IPA</span>
+          <span class="item-abv">8.2% ABV</span>
+        </div>
+        <div class="item-desc">A punchy and warming western double IPA w/ Chinook & Simcoe hops featuring an El Dorado hop hash dry hop!</div>
+        <div class="item-pricing">$5 (4oz) / $9 (12oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Sunless Skies Cascadian Dark Ale</span>
+          <span class="item-abv">5.4% ABV</span>
+        </div>
+        <div class="item-desc">Roasty malt character w/ citrussy and piney hop qualities make this an absolute crusher!</div>
+        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Famine Wolf Stout</span>
+          <span class="item-abv">4.2% ABV</span>
+        </div>
+        <div class="item-desc">Maris Otter, Chocolate malt, Roasted Barley, Flaked Oats. Fuggle hops. Simple. Subtle. Stout.</div>
+        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Gnarlyquin Romance</span>
+          <span class="item-abv">7.9% ABV</span>
+        </div>
+        <div class="item-desc">Stout with chocolate and figs.</div>
+        <div class="item-pricing">$5 (4oz) / $9 (12oz) / $10 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">The Magical Liopleurodon Porter</span>
+          <span class="item-abv">7% ABV</span>
+        </div>
+        <div class="item-desc">Porter with Coffee, Cinnamon, and Fire-roasted Chili Peppers. Gluten Reduced.</div>
+        <div class="item-pricing">$5 (4oz) / $9 (12oz) / $10 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Exasberryated Worm Farm</span>
+          <span class="item-abv">7.5% ABV</span>
+        </div>
+        <div class="item-desc">Pastry sour with blueberry, blackberry, black currant, vanilla and lactose.</div>
+        <div class="item-pricing">$5 (4oz) / $9 (12oz) / $10 (16oz)</div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Hop Tea</span>
+          <span class="item-abv">0% ABV</span>
+        </div>
+        <div class="item-desc">Green Tea, Citra Hops and Carbonated Water.</div>
+        <div class="item-pricing">Available Now</div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
