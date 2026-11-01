@@ -2,22 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vision Quest Brewery</title>
+  <title>Vision Quest Brewery Menu</title>
   <style>
     :root {
-      --bg: #07090f;
-      --panel-bg: linear-gradient(135deg, rgba(22, 27, 34, 0.85) 0%, rgba(13, 17, 23, 0.85) 100%);
+      --bg: #0a0a0f;
+      --panel-bg: linear-gradient(135deg, #1c1f26 0%, #12141a 100%);
       --neon-cyan: #00f3ff;
       --neon-magenta: #ff0055;
+      --neon-amber: #ffb700;
       --price-green: #39ff14;
       --text-main: #edf2f7;
-      --text-muted: #8b949e;
+      --text-muted: #a0aec0;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(0, 243, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(255, 0, 85, 0.06) 0%, transparent 40%);
       color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       padding: 30px 40px;
@@ -28,20 +32,16 @@
       position: relative;
     }
 
-    /* Circuitry Background Canvas */
-    #circuitCanvas {
+    /* CRT Scanline Overlay */
+    body::before {
+      content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      z-index: 10;
       pointer-events: none;
-      z-index: 0;
-    }
-
-    header, .grid {
-      position: relative;
-      z-index: 2;
+      opacity: 0.6;
     }
 
     header {
@@ -52,8 +52,6 @@
       border-bottom: 2px solid;
       border-image: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta)) 1;
       padding-bottom: 12px;
-      background: rgba(7, 9, 15, 0.75);
-      backdrop-filter: blur(4px);
     }
 
     .brand-title {
@@ -61,10 +59,10 @@
       font-weight: 900;
       letter-spacing: 4px;
       text-transform: uppercase;
-      background: linear-gradient(180deg, #ffffff 0%, #c9d1d9 50%, #484f58 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #a0aec0 50%, #4a5568 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.25));
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
     }
 
     .brand-subtitle {
@@ -81,6 +79,7 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       flex-grow: 1;
+      z-index: 1;
     }
 
     .category-column {
@@ -91,17 +90,12 @@
 
     .card {
       background: var(--panel-bg);
-      border: 1px solid rgba(48, 54, 61, 0.8);
+      border: 1px solid #2d3748;
       border-radius: 6px;
       padding: 12px 18px;
       position: relative;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(6px);
-      transition: border-color 0.3s ease;
-    }
-
-    .card:hover {
-      border-color: rgba(0, 243, 255, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: cardPulse 8s infinite alternate ease-in-out;
     }
 
     .card::before {
@@ -110,11 +104,17 @@
       top: 0; left: 0; width: 100%; height: 100%;
       border-radius: 6px;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 40%, rgba(0, 243, 255, 0.15));
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent 40%, rgba(0, 243, 255, 0.2));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
+    }
+
+    @keyframes cardPulse {
+      0% { border-color: rgba(74, 85, 104, 0.6); }
+      50% { border-color: rgba(0, 243, 255, 0.3); }
+      100% { border-color: rgba(255, 0, 85, 0.3); }
     }
 
     .item-header {
@@ -135,8 +135,8 @@
       font-size: 0.85rem;
       font-weight: 800;
       color: var(--neon-cyan);
-      background: rgba(0, 243, 255, 0.08);
-      border: 1px solid rgba(0, 243, 255, 0.25);
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid rgba(0, 243, 255, 0.3);
       padding: 2px 6px;
       border-radius: 3px;
       letter-spacing: 0.5px;
@@ -160,11 +160,20 @@
       display: flex;
       gap: 12px;
     }
+
+    /* Canvas Overlay for Subtle Micro-Anomalies */
+    #anomalyCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 5;
+    }
   </style>
 </head>
 <body>
-
-  <canvas id="circuitCanvas"></canvas>
 
   <header>
     <div>
@@ -182,7 +191,7 @@
           <span class="item-abv">5.5% ABV</span>
         </div>
         <div class="item-desc">American Lager brewed with Mountain Malt barley, flaked corn and rice, fermented cold.</div>
-        <div class="item-pricing"><span>4oz: $4</span><span>12oz: $7</span><span>16oz: $8</span></div>
+        <div class="item-pricing"><span>4oz: $4</span><span>12oz: $7</span><span>16oz: $16</span></div>
       </div>
 
       <div class="card">
@@ -307,8 +316,10 @@
     </div>
   </div>
 
+  <canvas id="anomalyCanvas"></canvas>
+
   <script>
-    const canvas = document.getElementById('circuitCanvas');
+    const canvas = document.getElementById('anomalyCanvas');
     const ctx = canvas.getContext('2d');
 
     function resize() {
@@ -318,92 +329,197 @@
     window.addEventListener('resize', resize);
     resize();
 
-    // Generate tasteful grid-aligned circuit traces
-    const gridSize = 40;
-    const paths = [];
+    let activeEvent = null;
 
-    function initPaths() {
-      paths.length = 0;
-      const cols = Math.floor(canvas.width / gridSize);
-      const rows = Math.floor(canvas.height / gridSize);
+    // --- ANOMALY DRAW ENGINE ---
+    
+    // 1. Geometric Sacred Mandala
+    function drawMandala(progress) {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const maxR = Math.min(canvas.width, canvas.height) * 0.45;
+      const alpha = Math.sin(progress * Math.PI) * 0.8;
 
-      // Create subtle structural lines
-      for (let i = 0; i < 18; i++) {
-        let current = {
-          x: Math.floor(Math.random() * cols) * gridSize,
-          y: Math.floor(Math.random() * rows) * gridSize
-        };
-        const segments = [{...current}];
-        const length = 5 + Math.floor(Math.random() * 6);
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(progress * Math.PI * 0.5);
+      ctx.strokeStyle = `rgba(0, 243, 255, ${alpha})`;
+      ctx.lineWidth = 1.5;
 
-        for (let j = 0; j < length; j++) {
-          const axis = Math.random() > 0.5 ? 'x' : 'y';
-          const step = (Math.random() > 0.5 ? 1 : -1) * gridSize * (1 + Math.floor(Math.random() * 2));
-          current[axis] += step;
-          
-          // Keep within bounds
-          current.x = Math.max(0, Math.min(canvas.width, current.x));
-          current.y = Math.max(0, Math.min(canvas.height, current.y));
-          
-          segments.push({...current});
-        }
-
-        paths.push({
-          segments: segments,
-          pulseProgress: Math.random(),
-          speed: 0.002 + Math.random() * 0.003
-        });
-      }
-    }
-
-    initPaths();
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw background traces
-      paths.forEach(p => {
-        // Draw static faint track
-        ctx.strokeStyle = 'rgba(0, 243, 255, 0.04)';
-        ctx.lineWidth = 1;
+      const petals = 12;
+      for (let i = 0; i < petals; i++) {
+        ctx.rotate((Math.PI * 2) / petals);
         ctx.beginPath();
-        p.segments.forEach((seg, idx) => {
-          if (idx === 0) ctx.moveTo(seg.x, seg.y);
-          else ctx.lineTo(seg.x, seg.y);
-        });
+        ctx.arc(maxR * 0.5, 0, maxR * 0.4, 0, Math.PI * 2);
         ctx.stroke();
 
-        // Advance and draw data pulse
-        p.pulseProgress += p.speed;
-        if (p.pulseProgress > 1) p.pulseProgress = 0;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(maxR, 0);
+        ctx.stroke();
+      }
 
-        // Calculate exact point along path segments
-        const totalSegments = p.segments.length - 1;
-        const targetFloat = p.pulseProgress * totalSegments;
-        const segIdx = Math.floor(targetFloat);
-        const segProgress = targetFloat - segIdx;
-
-        if (segIdx < totalSegments) {
-          const start = p.segments[segIdx];
-          const end = p.segments[segIdx + 1];
-          const px = start.x + (end.x - start.x) * segProgress;
-          const py = start.y + (end.y - start.y) * segProgress;
-
-          // Draw active pulse head
-          ctx.fillStyle = 'rgba(0, 243, 255, 0.6)';
-          ctx.shadowColor = '#00f3ff';
-          ctx.shadowBlur = 8;
-          ctx.beginPath();
-          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.shadowBlur = 0; // reset
-        }
-      });
-
-      requestAnimationFrame(animate);
+      ctx.beginPath();
+      ctx.arc(0, 0, maxR, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
     }
 
-    requestAnimationFrame(animate);
+    // 2. Transcendent Alien Silhouette
+    function drawAlien(progress) {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const alpha = Math.sin(progress * Math.PI) * 0.85;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.fillStyle = `rgba(0, 0, 0, ${alpha * 0.9})`;
+      ctx.strokeStyle = `rgba(255, 0, 85, ${alpha})`;
+      ctx.lineWidth = 2;
+
+      // Elongated Head Structure
+      ctx.beginPath();
+      ctx.ellipse(0, -20, 110, 160, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Glowing Eyes
+      ctx.fillStyle = `rgba(0, 243, 255, ${alpha})`;
+      ctx.beginPath();
+      ctx.ellipse(-45, -10, 35, 18, -Math.PI / 6, 0, Math.PI * 2);
+      ctx.ellipse(45, -10, 35, 18, Math.PI / 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    // 3. Vector Space Rocket Trajectory
+    function drawRocket(progress) {
+      const startX = -100;
+      const startY = canvas.height + 100;
+      const endX = canvas.width + 100;
+      const endY = -100;
+
+      const x = startX + (endX - startX) * progress;
+      const y = startY + (endY - startY) * progress;
+      const angle = Math.atan2(endY - startY, endX - startX);
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle + Math.PI / 2);
+
+      // Exhaust Trail
+      ctx.strokeStyle = `rgba(255, 183, 0, ${(1 - progress) * 0.6})`;
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(0, 40);
+      ctx.lineTo(0, 200 + Math.random() * 50);
+      ctx.stroke();
+
+      // Rocket Wireframe
+      ctx.strokeStyle = `rgba(237, 242, 247, 0.9)`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, -40);
+      ctx.lineTo(15, 20);
+      ctx.lineTo(15, 40);
+      ctx.lineTo(-15, 40);
+      ctx.lineTo(-15, 20);
+      ctx.closePath();
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // 4. Caveman Petrograph / Monolith Glyph
+    function drawCaveman(progress) {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const alpha = Math.sin(progress * Math.PI) * 0.75;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.strokeStyle = `rgba(255, 183, 0, ${alpha})`;
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+
+      // Primitive Stick Figure Pose
+      // Head
+      ctx.beginPath();
+      ctx.arc(0, -80, 25, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Spine
+      ctx.beginPath();
+      ctx.moveTo(0, -55);
+      ctx.lineTo(0, 30);
+      ctx.stroke();
+
+      // Raised Arms
+      ctx.beginPath();
+      ctx.moveTo(0, -35);
+      ctx.lineTo(-50, -75);
+      ctx.lineTo(-70, -110);
+      ctx.moveTo(0, -35);
+      ctx.lineTo(50, -75);
+      ctx.lineTo(70, -110);
+      ctx.stroke();
+
+      // Legs
+      ctx.beginPath();
+      ctx.moveTo(0, 30);
+      ctx.lineTo(-40, 100);
+      ctx.moveTo(0, 30);
+      ctx.lineTo(40, 100);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // --- ANOMALY SCHEDULER ENGINE ---
+    const anomalies = [drawMandala, drawAlien, drawRocket, drawCaveman];
+
+    function triggerRandomAnomaly() {
+      const selected = anomalies[Math.floor(Math.random() * anomalies.length)];
+      const duration = 2500 + Math.random() * 2000; // 2.5s to 4.5s
+      const startTime = performance.now();
+
+      activeEvent = {
+        render: selected,
+        duration: duration,
+        startTime: startTime
+      };
+
+      scheduleNext();
+    }
+
+    function scheduleNext() {
+      // Random silence window: 45 to 120 seconds
+      const delay = (45 + Math.random() * 75) * 1000;
+      setTimeout(triggerRandomAnomaly, delay);
+    }
+
+    // Render Loop
+    function loop(now) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (activeEvent) {
+        const elapsed = now - activeEvent.startTime;
+        const progress = elapsed / activeEvent.duration;
+
+        if (progress < 1) {
+          activeEvent.render(progress);
+        } else {
+          activeEvent = null;
+        }
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    // First trigger after 15 seconds, then schedule randomly
+    setTimeout(triggerRandomAnomaly, 15000);
+    requestAnimationFrame(loop);
   </script>
 </body>
 </html>
