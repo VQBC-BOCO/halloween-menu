@@ -2,26 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vision Quest Brewery Menu</title>
+  <title>Vision Quest Brewery</title>
   <style>
     :root {
-      --bg: #0a0a0f;
-      --panel-bg: linear-gradient(135deg, #1c1f26 0%, #12141a 100%);
-      --metal-border: linear-gradient(135deg, #4a5568, #1a202c, #718096);
+      --bg: #07090f;
+      --panel-bg: linear-gradient(135deg, rgba(22, 27, 34, 0.85) 0%, rgba(13, 17, 23, 0.85) 100%);
       --neon-cyan: #00f3ff;
       --neon-magenta: #ff0055;
       --price-green: #39ff14;
       --text-main: #edf2f7;
-      --text-muted: #a0aec0;
+      --text-muted: #8b949e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg);
-      background-image: 
-        radial-gradient(circle at 10% 10%, rgba(0, 243, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 90%, rgba(255, 0, 85, 0.06) 0%, transparent 40%);
       color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       padding: 30px 40px;
@@ -32,16 +28,20 @@
       position: relative;
     }
 
-    /* Subtle 90s CRT Scanline Overlay */
-    body::before {
-      content: "";
+    /* Circuitry Background Canvas */
+    #circuitCanvas {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-      background-size: 100% 4px;
-      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
-      opacity: 0.6;
+      z-index: 0;
+    }
+
+    header, .grid {
+      position: relative;
+      z-index: 2;
     }
 
     header {
@@ -52,6 +52,8 @@
       border-bottom: 2px solid;
       border-image: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta)) 1;
       padding-bottom: 12px;
+      background: rgba(7, 9, 15, 0.75);
+      backdrop-filter: blur(4px);
     }
 
     .brand-title {
@@ -59,10 +61,10 @@
       font-weight: 900;
       letter-spacing: 4px;
       text-transform: uppercase;
-      background: linear-gradient(180deg, #ffffff 0%, #a0aec0 50%, #4a5568 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #c9d1d9 50%, #484f58 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+      filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.25));
     }
 
     .brand-subtitle {
@@ -79,7 +81,6 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
       flex-grow: 1;
-      z-index: 1;
     }
 
     .category-column {
@@ -90,32 +91,30 @@
 
     .card {
       background: var(--panel-bg);
-      border: 1px solid #2d3748;
+      border: 1px solid rgba(48, 54, 61, 0.8);
       border-radius: 6px;
       padding: 12px 18px;
       position: relative;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-      animation: cardPulse 8s infinite alternate ease-in-out;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      transition: border-color 0.3s ease;
     }
 
-    /* Metallic corner highlight */
+    .card:hover {
+      border-color: rgba(0, 243, 255, 0.4);
+    }
+
     .card::before {
       content: "";
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
       border-radius: 6px;
       padding: 1px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent 40%, rgba(0, 243, 255, 0.2));
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 40%, rgba(0, 243, 255, 0.15));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
-    }
-
-    @keyframes cardPulse {
-      0% { border-color: rgba(74, 85, 104, 0.6); }
-      50% { border-color: rgba(0, 243, 255, 0.3); }
-      100% { border-color: rgba(255, 0, 85, 0.3); }
     }
 
     .item-header {
@@ -136,8 +135,8 @@
       font-size: 0.85rem;
       font-weight: 800;
       color: var(--neon-cyan);
-      background: rgba(0, 243, 255, 0.1);
-      border: 1px solid rgba(0, 243, 255, 0.3);
+      background: rgba(0, 243, 255, 0.08);
+      border: 1px solid rgba(0, 243, 255, 0.25);
       padding: 2px 6px;
       border-radius: 3px;
       letter-spacing: 0.5px;
@@ -164,6 +163,8 @@
   </style>
 </head>
 <body>
+
+  <canvas id="circuitCanvas"></canvas>
 
   <header>
     <div>
@@ -306,5 +307,103 @@
     </div>
   </div>
 
+  <script>
+    const canvas = document.getElementById('circuitCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Generate tasteful grid-aligned circuit traces
+    const gridSize = 40;
+    const paths = [];
+
+    function initPaths() {
+      paths.length = 0;
+      const cols = Math.floor(canvas.width / gridSize);
+      const rows = Math.floor(canvas.height / gridSize);
+
+      // Create subtle structural lines
+      for (let i = 0; i < 18; i++) {
+        let current = {
+          x: Math.floor(Math.random() * cols) * gridSize,
+          y: Math.floor(Math.random() * rows) * gridSize
+        };
+        const segments = [{...current}];
+        const length = 5 + Math.floor(Math.random() * 6);
+
+        for (let j = 0; j < length; j++) {
+          const axis = Math.random() > 0.5 ? 'x' : 'y';
+          const step = (Math.random() > 0.5 ? 1 : -1) * gridSize * (1 + Math.floor(Math.random() * 2));
+          current[axis] += step;
+          
+          // Keep within bounds
+          current.x = Math.max(0, Math.min(canvas.width, current.x));
+          current.y = Math.max(0, Math.min(canvas.height, current.y));
+          
+          segments.push({...current});
+        }
+
+        paths.push({
+          segments: segments,
+          pulseProgress: Math.random(),
+          speed: 0.002 + Math.random() * 0.003
+        });
+      }
+    }
+
+    initPaths();
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw background traces
+      paths.forEach(p => {
+        // Draw static faint track
+        ctx.strokeStyle = 'rgba(0, 243, 255, 0.04)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        p.segments.forEach((seg, idx) => {
+          if (idx === 0) ctx.moveTo(seg.x, seg.y);
+          else ctx.lineTo(seg.x, seg.y);
+        });
+        ctx.stroke();
+
+        // Advance and draw data pulse
+        p.pulseProgress += p.speed;
+        if (p.pulseProgress > 1) p.pulseProgress = 0;
+
+        // Calculate exact point along path segments
+        const totalSegments = p.segments.length - 1;
+        const targetFloat = p.pulseProgress * totalSegments;
+        const segIdx = Math.floor(targetFloat);
+        const segProgress = targetFloat - segIdx;
+
+        if (segIdx < totalSegments) {
+          const start = p.segments[segIdx];
+          const end = p.segments[segIdx + 1];
+          const px = start.x + (end.x - start.x) * segProgress;
+          const py = start.y + (end.y - start.y) * segProgress;
+
+          // Draw active pulse head
+          ctx.fillStyle = 'rgba(0, 243, 255, 0.6)';
+          ctx.shadowColor = '#00f3ff';
+          ctx.shadowBlur = 8;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0; // reset
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
 </body>
 </html>
