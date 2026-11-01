@@ -2,97 +2,174 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Spooky Menu Board</title>
+  <title>Vision Quest Brewery Menu</title>
   <style>
     :root {
-      --bg: #07040a;
-      --orange: #ff6600;
-      --green: #39ff14;
-      --purple: #9d4edd;
-      --card-bg: rgba(15, 8, 22, 0.92);
-      --text-main: #f0f0f5;
-      --text-muted: #b0a8b9;
+      --bg: #0a0a0f;
+      --panel-bg: linear-gradient(135deg, #1c1f26 0%, #12141a 100%);
+      --metal-border: linear-gradient(135deg, #4a5568, #1a202c, #718096);
+      --neon-cyan: #00f3ff;
+      --neon-magenta: #ff0055;
+      --price-green: #39ff14;
+      --text-main: #edf2f7;
+      --text-muted: #a0aec0;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(0, 243, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(255, 0, 85, 0.06) 0%, transparent 40%);
       color: var(--text-main);
-      font-family: 'Courier New', Courier, monospace;
-      padding: 35px;
-      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      padding: 30px 40px;
       height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
+
+    /* Subtle 90s CRT Scanline Overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
     header {
-      text-align: center;
-      margin-bottom: 25px;
-      border-bottom: 3px dashed var(--orange);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 20px;
+      border-bottom: 2px solid;
+      border-image: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta)) 1;
       padding-bottom: 12px;
     }
-    h1 {
-      font-size: 3.2rem;
-      color: var(--orange);
-      text-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+
+    .brand-title {
+      font-size: 2.8rem;
+      font-weight: 900;
       letter-spacing: 4px;
       text-transform: uppercase;
+      background: linear-gradient(180deg, #ffffff 0%, #a0aec0 50%, #4a5568 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
     }
+
+    .brand-subtitle {
+      font-size: 0.95rem;
+      color: var(--neon-cyan);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+      gap: 16px;
       flex-grow: 1;
-      overflow: hidden;
+      z-index: 1;
     }
+
     .category-column {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
     }
+
     .card {
-      background: var(--card-bg);
-      border: 2px solid var(--purple);
-      border-radius: 10px;
-      padding: 15px 20px;
-      box-shadow: 0 0 15px rgba(157, 78, 221, 0.15);
+      background: var(--panel-bg);
+      border: 1px solid #2d3748;
+      border-radius: 6px;
+      padding: 12px 18px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: cardPulse 8s infinite alternate ease-in-out;
     }
+
+    /* Metallic corner highlight */
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border-radius: 6px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent 40%, rgba(0, 243, 255, 0.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    @keyframes cardPulse {
+      0% { border-color: rgba(74, 85, 104, 0.6); }
+      50% { border-color: rgba(0, 243, 255, 0.3); }
+      100% { border-color: rgba(255, 0, 85, 0.3); }
+    }
+
     .item-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       margin-bottom: 4px;
     }
+
     .item-name {
-      font-size: 1.35rem;
-      color: #fff;
-      font-weight: bold;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.5px;
     }
+
     .item-abv {
-      font-size: 0.95rem;
-      color: var(--orange);
-      font-weight: bold;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
     }
+
     .item-desc {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      font-style: italic;
-      margin-bottom: 8px;
-      line-height: 1.2;
+      line-height: 1.25;
+      margin-bottom: 6px;
     }
+
     .item-pricing {
-      font-size: 0.95rem;
-      color: var(--green);
-      font-weight: bold;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--price-green);
       letter-spacing: 0.5px;
       border-top: 1px dotted rgba(255, 255, 255, 0.1);
       padding-top: 5px;
+      display: flex;
+      gap: 12px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>🎃 Vision Quest Spooky Menu 🎃</h1>
+    <div>
+      <div class="brand-subtitle">Craft Taproom</div>
+      <div class="brand-title">Vision Quest Brewery</div>
+    </div>
   </header>
 
   <div class="grid">
@@ -104,7 +181,7 @@
           <span class="item-abv">5.5% ABV</span>
         </div>
         <div class="item-desc">American Lager brewed with Mountain Malt barley, flaked corn and rice, fermented cold.</div>
-        <div class="item-pricing">$4 (4oz) / $7 (12oz) / $8 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $4</span><span>12oz: $7</span><span>16oz: $8</span></div>
       </div>
 
       <div class="card">
@@ -112,8 +189,8 @@
           <span class="item-name">Father Figure Vienna Lager</span>
           <span class="item-abv">4.6% ABV</span>
         </div>
-        <div class="item-desc">A light, amber hued lager w/ a malty, bread crust backbone and balanced hop profile.</div>
-        <div class="item-pricing">$4 (4oz) / $7 (12oz) / $8 (16oz)</div>
+        <div class="item-desc">Light, amber hued lager w/ a malty, bread crust backbone and balanced hop profile.</div>
+        <div class="item-pricing"><span>4oz: $4</span><span>12oz: $7</span><span>16oz: $8</span></div>
       </div>
 
       <div class="card">
@@ -121,26 +198,35 @@
           <span class="item-name">CRAFtea Wit</span>
           <span class="item-abv">5.2% ABV</span>
         </div>
-        <div class="item-desc">Belgian style Witbier brewed with Earl Grey Tea. Happy 2026 CRAFT Fest!</div>
-        <div class="item-pricing">$4 (4oz) / $7 (12oz) / $8 (16oz)</div>
+        <div class="item-desc">Belgian style Witbier brewed with Earl Grey Tea.</div>
+        <div class="item-pricing"><span>4oz: $4</span><span>12oz: $7</span><span>16oz: $8</span></div>
+      </div>
+
+      <div class="card">
+        <div class="item-header">
+          <span class="item-name">Not My Lover Belgian Pale</span>
+          <span class="item-abv">5.2% ABV</span>
+        </div>
+        <div class="item-desc">Soft malt character and floral hop notes. Belgian yeast and local malt.</div>
+        <div class="item-pricing"><span>4oz: $4</span><span>12oz: $7</span><span>16oz: $8</span></div>
       </div>
 
       <div class="card">
         <div class="item-header">
           <span class="item-name">Boombox Pale Ale</span>
-          <span class="item-abv">6% ABV</span>
+          <span class="item-abv">6.0% ABV</span>
         </div>
         <div class="item-desc">West Coast Pale with Idaho 7, Cascade w/ Citra dry hop.</div>
-        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $8</span><span>16oz: $9</span></div>
       </div>
 
       <div class="card">
         <div class="item-header">
           <span class="item-name">Headier Than Thou Hazy IPA</span>
-          <span class="item-abv">6% ABV</span>
+          <span class="item-abv">6.0% ABV</span>
         </div>
         <div class="item-desc">Hazy IPA w/ Mosaic and Strata hops.</div>
-        <div class="item-pricing">$4 (4oz) / $8 (12oz) / $9 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $4</span><span>12oz: $8</span><span>16oz: $9</span></div>
       </div>
 
       <div class="card">
@@ -149,7 +235,7 @@
           <span class="item-abv">7.4% ABV</span>
         </div>
         <div class="item-desc">Mostly Mosaic Hops. Hang in There Hazy IPA’s twin cousin.</div>
-        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $8</span><span>16oz: $9</span></div>
       </div>
     </div>
 
@@ -160,8 +246,8 @@
           <span class="item-name">Candy Griper Double IPA</span>
           <span class="item-abv">8.2% ABV</span>
         </div>
-        <div class="item-desc">A punchy and warming western double IPA w/ Chinook & Simcoe hops featuring an El Dorado hop hash dry hop!</div>
-        <div class="item-pricing">$5 (4oz) / $9 (12oz)</div>
+        <div class="item-desc">Punchy and warming western double IPA w/ Chinook & Simcoe hops featuring El Dorado hop hash dry hop!</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $9</span></div>
       </div>
 
       <div class="card">
@@ -170,7 +256,7 @@
           <span class="item-abv">5.4% ABV</span>
         </div>
         <div class="item-desc">Roasty malt character w/ citrussy and piney hop qualities make this an absolute crusher!</div>
-        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $8</span><span>16oz: $9</span></div>
       </div>
 
       <div class="card">
@@ -179,7 +265,7 @@
           <span class="item-abv">4.2% ABV</span>
         </div>
         <div class="item-desc">Maris Otter, Chocolate malt, Roasted Barley, Flaked Oats. Fuggle hops. Simple. Subtle. Stout.</div>
-        <div class="item-pricing">$5 (4oz) / $8 (12oz) / $9 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $8</span><span>16oz: $9</span></div>
       </div>
 
       <div class="card">
@@ -188,16 +274,16 @@
           <span class="item-abv">7.9% ABV</span>
         </div>
         <div class="item-desc">Stout with chocolate and figs.</div>
-        <div class="item-pricing">$5 (4oz) / $9 (12oz) / $10 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $9</span><span>16oz: $10</span></div>
       </div>
 
       <div class="card">
         <div class="item-header">
           <span class="item-name">The Magical Liopleurodon Porter</span>
-          <span class="item-abv">7% ABV</span>
+          <span class="item-abv">7.0% ABV</span>
         </div>
         <div class="item-desc">Porter with Coffee, Cinnamon, and Fire-roasted Chili Peppers. Gluten Reduced.</div>
-        <div class="item-pricing">$5 (4oz) / $9 (12oz) / $10 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $9</span><span>16oz: $10</span></div>
       </div>
 
       <div class="card">
@@ -206,16 +292,16 @@
           <span class="item-abv">7.5% ABV</span>
         </div>
         <div class="item-desc">Pastry sour with blueberry, blackberry, black currant, vanilla and lactose.</div>
-        <div class="item-pricing">$5 (4oz) / $9 (12oz) / $10 (16oz)</div>
+        <div class="item-pricing"><span>4oz: $5</span><span>12oz: $9</span><span>16oz: $10</span></div>
       </div>
 
       <div class="card">
         <div class="item-header">
           <span class="item-name">Hop Tea</span>
-          <span class="item-abv">0% ABV</span>
+          <span class="item-abv">0.0% ABV</span>
         </div>
         <div class="item-desc">Green Tea, Citra Hops and Carbonated Water.</div>
-        <div class="item-pricing">Available Now</div>
+        <div class="item-pricing"><span>On Tap Now</span></div>
       </div>
     </div>
   </div>
